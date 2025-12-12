@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 50);
             $table->unsignedBigInteger('department_id')->nullable();
-            $table->unsignedBigInteger('Academic_year_id')->nullable();
+            $table->unsignedBigInteger('academic_year_id')->nullable();
             $table->integer('total_student')->default(0);
             $table->timestamps();
 
