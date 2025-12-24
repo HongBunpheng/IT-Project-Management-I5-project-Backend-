@@ -1,0 +1,1245 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "ITC Student Portal API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local server"
+        }
+    ],
+    "paths": {
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register a new user",
+                "operationId": "d764dd091cc4494ae0baf360b03319f3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_name",
+                                    "email",
+                                    "password",
+                                    "role"
+                                ],
+                                "properties": {
+                                    "user_name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john@mail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    },
+                                    "gender": {
+                                        "type": "string",
+                                        "example": "male"
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "012345678"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "example": "student"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User login",
+                "operationId": "8dcb70df1020986038d098cc08d05dae",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "phone_number",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john@mail.com"
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "012345678"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login success"
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout current user",
+                "operationId": "69281b12abb272c76871f19cb17ca563",
+                "responses": {
+                    "200": {
+                        "description": "Logged out successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/me": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get authenticated user",
+                "operationId": "b9abb1a7a74670a19c215c2c133f14d8",
+                "responses": {
+                    "200": {
+                        "description": "Authenticated user data"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/buildings": {
+            "get": {
+                "tags": [
+                    "Buildings"
+                ],
+                "summary": "Get all buildings",
+                "operationId": "f29d20a22fd3a8295e27f96776d5007f",
+                "responses": {
+                    "200": {
+                        "description": "List of buildings"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Buildings"
+                ],
+                "summary": "Create a new building",
+                "operationId": "c8f8399919e01b1e4e2e2f6a9f1f5107",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "code"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Main Building"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "ITC Campus"
+                                    },
+                                    "code": {
+                                        "type": "string",
+                                        "example": "B01"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Building created"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/buildings/{id}": {
+            "get": {
+                "tags": [
+                    "Buildings"
+                ],
+                "summary": "Get building by ID",
+                "operationId": "7c2e9a5ec44b127b681717d1d5b91152",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Building detail"
+                    },
+                    "404": {
+                        "description": "Building not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Buildings"
+                ],
+                "summary": "Update building",
+                "operationId": "0bd50384a833589efa669b51b8e1ff88",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Updated Building"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "New Address"
+                                    },
+                                    "code": {
+                                        "type": "string",
+                                        "example": "B02"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Building updated"
+                    },
+                    "404": {
+                        "description": "Building not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Buildings"
+                ],
+                "summary": "Delete building",
+                "operationId": "db5360c892964cf865373a95f5da4633",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Building deleted"
+                    },
+                    "404": {
+                        "description": "Building not found"
+                    }
+                }
+            }
+        },
+        "/api/classes": {
+            "get": {
+                "tags": [
+                    "Classes"
+                ],
+                "summary": "Get all classrooms",
+                "operationId": "0be89a41ae5c3b49c014421e66d29455",
+                "responses": {
+                    "200": {
+                        "description": "List of classrooms with building"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Classes"
+                ],
+                "summary": "Create a new classroom",
+                "operationId": "3476275874732c00644d08ba4c1f4d67",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "building_id",
+                                    "room_type"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Room A101"
+                                    },
+                                    "building_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "floor": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "room_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "normal",
+                                            "lab",
+                                            "meeting",
+                                            "other"
+                                        ],
+                                        "example": "lab"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Classroom created"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/classes/{id}": {
+            "get": {
+                "tags": [
+                    "Classes"
+                ],
+                "summary": "Get classroom by ID",
+                "operationId": "1ed85ef10177abaf60d4a2927655471b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Classroom detail with building"
+                    },
+                    "404": {
+                        "description": "Classroom not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Classes"
+                ],
+                "summary": "Update classroom",
+                "operationId": "81c91bac2441ee80a15391a7bee1e794",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Room B202"
+                                    },
+                                    "building_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "floor": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "room_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "normal",
+                                            "lab",
+                                            "meeting",
+                                            "other"
+                                        ],
+                                        "example": "normal"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Classroom updated"
+                    },
+                    "404": {
+                        "description": "Classroom not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Classes"
+                ],
+                "summary": "Delete classroom",
+                "operationId": "8b13363f09c96616c06c86a5f63c1beb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Classroom deleted"
+                    },
+                    "404": {
+                        "description": "Classroom not found"
+                    }
+                }
+            }
+        },
+        "/api/departments": {
+            "get": {
+                "tags": [
+                    "Departments"
+                ],
+                "summary": "List all departments",
+                "operationId": "da8820891dd6bf08713e9d77fbe6389f",
+                "responses": {
+                    "200": {
+                        "description": "List of departments"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Departments"
+                ],
+                "summary": "Create a new department",
+                "operationId": "c0f48115550ccf6a76b43ff263bfc05c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Information Technology"
+                                    },
+                                    "code": {
+                                        "type": "string",
+                                        "example": "IT"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "IT Department"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Department created successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/departments/{id}": {
+            "put": {
+                "tags": [
+                    "Departments"
+                ],
+                "summary": "Update department",
+                "operationId": "1d6fe343b0c809ce2a0722693aed793d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Computer Science"
+                                    },
+                                    "code": {
+                                        "type": "string",
+                                        "example": "CS"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "CS Department"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Department updated successfully"
+                    },
+                    "404": {
+                        "description": "Department not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Departments"
+                ],
+                "summary": "Delete department",
+                "operationId": "5cc7aebc708fbbbeb04b81504f62b499",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Department deleted successfully"
+                    },
+                    "404": {
+                        "description": "Department not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/groups": {
+            "get": {
+                "tags": [
+                    "Groups"
+                ],
+                "summary": "List all groups",
+                "operationId": "f286cbf34dc4be32a94459a335658168",
+                "responses": {
+                    "200": {
+                        "description": "List of groups with department and students"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Groups"
+                ],
+                "summary": "Create a new group",
+                "operationId": "74e9878763e20c38ae5c9930b8d2d3f6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "department_id",
+                                    "academic_year_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "G5-A"
+                                    },
+                                    "department_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "academic_year_id": {
+                                        "type": "integer",
+                                        "example": 2025
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Group created successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/groups/{id}": {
+            "put": {
+                "tags": [
+                    "Groups"
+                ],
+                "summary": "Update group",
+                "operationId": "f6aca8def1d24d74f3f6bdc6fda8d84e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "G5-B"
+                                    },
+                                    "department_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "academic_year_id": {
+                                        "type": "integer",
+                                        "example": 2026
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Group updated successfully"
+                    },
+                    "404": {
+                        "description": "Group not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Groups"
+                ],
+                "summary": "Delete group",
+                "operationId": "8c693e934c350f47618655bc71886930",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Group deleted successfully"
+                    },
+                    "404": {
+                        "description": "Group not found"
+                    }
+                }
+            }
+        },
+        "/api/groups/{group_id}/assign-students": {
+            "put": {
+                "tags": [
+                    "Groups"
+                ],
+                "summary": "Assign students to a group",
+                "operationId": "c5451caf045f832748c41df9fdfdf53d",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "student_ids"
+                                ],
+                                "properties": {
+                                    "student_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "example": 12
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Students assigned successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/qrcode/generate": {
+            "post": {
+                "tags": [
+                    "QR"
+                ],
+                "summary": "Generate QR code for a timetable",
+                "operationId": "5a1948f68ef440c9bc3d5542f1fe2990",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "timetable_id",
+                                    "valid_from",
+                                    "valid_until"
+                                ],
+                                "properties": {
+                                    "timetable_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "valid_from": {
+                                        "type": "string",
+                                        "example": "08:00"
+                                    },
+                                    "valid_until": {
+                                        "type": "string",
+                                        "example": "09:30"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "QR generated"
+                    }
+                }
+            }
+        },
+        "/api/qrcode/{id}": {
+            "get": {
+                "tags": [
+                    "QR"
+                ],
+                "summary": "Get QR code detail",
+                "operationId": "b5dd3990c7e90d573861bd02599cd2b0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "QR detail"
+                    }
+                }
+            }
+        },
+        "/api/timetable/user/{user_id}": {
+            "get": {
+                "tags": [
+                    "Timetable"
+                ],
+                "summary": "Get timetable for a student (by user)",
+                "operationId": "f862c043736de738855ddd3175fea9d0",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of timetable for student's group"
+                    }
+                }
+            }
+        },
+        "/api/timetable/group/{group_id}": {
+            "get": {
+                "tags": [
+                    "Timetable"
+                ],
+                "summary": "Get timetable by group",
+                "operationId": "c73f093e025d11b04b242be42bbef453",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of timetable for a group"
+                    }
+                }
+            }
+        },
+        "/api/timetable": {
+            "post": {
+                "tags": [
+                    "Timetable"
+                ],
+                "summary": "Create a timetable",
+                "operationId": "a124470b3cd2090c1b4da8df4b9a0acd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "group_id",
+                                    "class_id",
+                                    "day_of_week",
+                                    "start_time",
+                                    "end_time"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 10
+                                    },
+                                    "group_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "class_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "semester_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "subject_id": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "day_of_week": {
+                                        "type": "string",
+                                        "example": "Mon"
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Network Fundamentals"
+                                    },
+                                    "start_time": {
+                                        "type": "string",
+                                        "example": "08:00"
+                                    },
+                                    "end_time": {
+                                        "type": "string",
+                                        "example": "10:00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Timetable created successfully"
+                    }
+                }
+            }
+        },
+        "/api/timetable/{id}": {
+            "put": {
+                "tags": [
+                    "Timetable"
+                ],
+                "summary": "Update a timetable",
+                "operationId": "27211480240a138d1a2311265266b095",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Updated Title"
+                                    },
+                                    "day_of_week": {
+                                        "type": "string",
+                                        "example": "Tue"
+                                    },
+                                    "start_time": {
+                                        "type": "string",
+                                        "example": "09:00"
+                                    },
+                                    "end_time": {
+                                        "type": "string",
+                                        "example": "11:00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Timetable updated successfully"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Timetable"
+                ],
+                "summary": "Delete a timetable",
+                "operationId": "d4251b115a8c370d6f59941e0c3aea99",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Timetable deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/users/me": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get authenticated user profile",
+                "operationId": "ae07841bd78f6c5d5cdfa35efecff088",
+                "responses": {
+                    "200": {
+                        "description": "User profile data"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user profile and avatar",
+                "operationId": "21df7e0d63357faa291f5c99669b3ced",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "user_name": {
+                                        "type": "string",
+                                        "example": "Jane Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "jane@mail.com"
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "098765432"
+                                    },
+                                    "avatar": {
+                                        "description": "Avatar image file",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profile updated successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/me/password": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Change user password",
+                "operationId": "4b8f5f229fadbb55ae9d0a3f3dd1f7dd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "old_password",
+                                    "new_password"
+                                ],
+                                "properties": {
+                                    "old_password": {
+                                        "type": "string",
+                                        "example": "old123456"
+                                    },
+                                    "new_password": {
+                                        "type": "string",
+                                        "example": "new123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password updated"
+                    },
+                    "400": {
+                        "description": "Old password incorrect"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Buildings",
+            "description": "Buildings"
+        },
+        {
+            "name": "Classes",
+            "description": "Classes"
+        },
+        {
+            "name": "Departments",
+            "description": "Departments"
+        },
+        {
+            "name": "Groups",
+            "description": "Groups"
+        },
+        {
+            "name": "QR",
+            "description": "QR"
+        },
+        {
+            "name": "Timetable",
+            "description": "Timetable"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        }
+    ]
+}
