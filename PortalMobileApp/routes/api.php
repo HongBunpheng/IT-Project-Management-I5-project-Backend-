@@ -5,10 +5,12 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\AcademicYearController;
-use App\Http\Controllers\SemesterController;
+// use App\Http\Controllers\AcademicYearController;
+// use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\ClassRoomController;
+use App\Http\Controllers\TimetableController;
+use App\Http\Controllers\QrCodeController;
 
 // AUTH ROUTES
 Route::prefix('auth')->group(function () {
@@ -37,17 +39,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/departments/{id}', [DepartmentController::class, 'update']);
     Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
 
-    // ACADEMIC YEARS
-    Route::get('/academic-years', [AcademicYearController::class, 'index']);
-    Route::post('/academic-years', [AcademicYearController::class, 'store']);
-    Route::put('/academic-years/{id}', [AcademicYearController::class, 'update']);
-    Route::delete('/academic-years/{id}', [AcademicYearController::class, 'destroy']);
+    // // ACADEMIC YEARS
+    // Route::get('/academic-years', [AcademicYearController::class, 'index']);
+    // Route::post('/academic-years', [AcademicYearController::class, 'store']);
+    // Route::put('/academic-years/{id}', [AcademicYearController::class, 'update']);
+    // Route::delete('/academic-years/{id}', [AcademicYearController::class, 'destroy']);
 
-    // SEMESTERS
-    Route::get('/semesters', [SemesterController::class, 'index']);
-    Route::post('/semesters', [SemesterController::class, 'store']);
-    Route::put('/semesters/{id}', [SemesterController::class, 'update']);
-    Route::delete('/semesters/{id}', [SemesterController::class, 'destroy']);
+    // // SEMESTERS
+    // Route::get('/semesters', [SemesterController::class, 'index']);
+    // Route::post('/semesters', [SemesterController::class, 'store']);
+    // Route::put('/semesters/{id}', [SemesterController::class, 'update']);
+    // Route::delete('/semesters/{id}', [SemesterController::class, 'destroy']);
 
     // GROUPS
     Route::get('/groups', [GroupController::class, 'index']);
@@ -55,19 +57,30 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/groups/{id}', [GroupController::class, 'update']);
     Route::put('/groups/{group_id}/assign-students', [GroupController::class, 'assignStudents']);
     Route::delete('/groups/{id}', [GroupController::class, 'destroy']);
+
+    // Buildings
+    Route::get('/buildings', [BuildingController::class, 'get']);
+    Route::post('/buildings', [BuildingController::class, 'store']);
+    Route::get('/buildings/{id}', [BuildingController::class, 'show']);
+    Route::put('/buildings/{id}', [BuildingController::class, 'update']);
+    Route::delete('/buildings/{id}', [BuildingController::class, 'destroy']);
+
+    // Classes
+    Route::get('/classes', [ClassRoomController::class, 'get']);
+    Route::post('/classes', [ClassRoomController::class, 'store']);
+    Route::get('/classes/{id}', [ClassRoomController::class, 'show']);
+    Route::put('/classes/{id}', [ClassRoomController::class, 'update']);
+    Route::delete('/classes/{id}', [ClassRoomController::class, 'destroy']);
+
+    // Timetable
+    Route::get('/timetable/user/{user_id}', [TimetableController::class, 'listByUser']);
+    Route::get('/timetable/group/{group_id}', [TimetableController::class, 'listByGroup']);
+    Route::post('/timetable', [TimetableController::class, 'store']);
+    Route::put('/timetable/{id}', [TimetableController::class, 'update']);
+    Route::delete('/timetable/{id}', [TimetableController::class, 'destroy']);
+
+    //QR CODE GENERATION
+    Route::post('/qrcode/generate', [QrCodeController::class, 'generate']);
+    Route::get('/qrcode/{id}', [QrCodeController::class, 'show']);
+    Route::get('/qrcode/{id}/download', [QrCodeController::class, 'downloadQrImage']);
 });
-
-// Buildings
-Route::get('/buildings', [BuildingController::class, 'get']);
-Route::post('/buildings', [BuildingController::class, 'store']);
-Route::get('/buildings/{id}', [BuildingController::class, 'show']);
-Route::put('/buildings/{id}', [BuildingController::class, 'update']);
-Route::delete('/buildings/{id}', [BuildingController::class, 'destroy']);
-
-// Classes
-Route::get('/classes', [ClassRoomController::class, 'get']);
-Route::post('/classes', [ClassRoomController::class, 'store']);
-Route::get('/classes/{id}', [ClassRoomController::class, 'show']);
-Route::put('/classes/{id}', [ClassRoomController::class, 'update']);
-Route::delete('/classes/{id}', [ClassRoomController::class, 'destroy']);
-

@@ -10,7 +10,34 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    // REGISTER
+    /**
+     * @OA\Post(
+     *   path="/api/auth/register",
+     *   tags={"Auth"},
+     *   summary="Register a new user",
+     *   @OA\RequestBody(
+     *     required=true,
+     *     @OA\JsonContent(
+     *       required={"user_name","email","password","role"},
+     *       @OA\Property(property="user_name", type="string", example="John Doe"),
+     *       @OA\Property(property="email", type="string", example="john@mail.com"),
+     *       @OA\Property(property="password", type="string", example="123456"),
+     *       @OA\Property(property="gender", type="string", example="male"),
+     *       @OA\Property(property="phone_number", type="string", example="012345678"),
+     *       @OA\Property(property="role", type="string", example="student")
+     *     )
+     *   ),
+     *   @OA\Response(
+     *     response=201,
+     *     description="User registered successfully"
+     *   ),
+     *   @OA\Response(
+     *     response=422,
+     *     description="Validation error"
+     *   )
+     * )
+     */
+
     public function register(Request $request)
     {
         $validated = $request->validate([
@@ -32,7 +59,30 @@ class AuthController extends Controller
         ], 201);
     }
 
-    // LOGIN
+    /**
+     * @OA\Post(
+     *   path="/api/auth/login",
+     *   tags={"Auth"},
+     *   summary="User login",
+     *   @OA\RequestBody(
+     *     required=true,
+     *     @OA\JsonContent(
+     *       required={"email","phone_number","password"},
+     *       @OA\Property(property="email", type="string", example="john@mail.com"),
+     *       @OA\Property(property="phone_number", type="string", example="012345678"),
+     *       @OA\Property(property="password", type="string", example="123456")
+     *     )
+     *   ),
+     *   @OA\Response(
+     *     response=200,
+     *     description="Login success"
+     *   ),
+     *   @OA\Response(
+     *     response=401,
+     *     description="Invalid credentials"
+     *   )
+     * )
+     */
     public function login(Request $request)
     {
         $request->validate([
@@ -58,7 +108,19 @@ class AuthController extends Controller
         ]);
     }
 
-    // LOGOUT
+    /**
+     * @OA\Post(
+     *   path="/api/auth/logout",
+     *   tags={"Auth"},
+     *   summary="Logout current user",
+     *   security={{"bearerAuth":{}}},
+     *   @OA\Response(
+     *     response=200,
+     *     description="Logged out successfully"
+     *   )
+     * )
+     */
+
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
@@ -68,7 +130,19 @@ class AuthController extends Controller
         ]);
     }
 
-    // RETURN AUTH USER (short)
+    /**
+     * @OA\Get(
+     *   path="/api/auth/me",
+     *   tags={"Auth"},
+     *   summary="Get authenticated user",
+     *   security={{"bearerAuth":{}}},
+     *   @OA\Response(
+     *     response=200,
+     *     description="Authenticated user data"
+     *   )
+     * )
+     */
+
     public function me(Request $request)
     {
         return response()->json($request->user());

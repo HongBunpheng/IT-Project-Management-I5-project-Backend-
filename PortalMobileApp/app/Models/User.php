@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -48,18 +49,18 @@ class User extends Authenticatable
         return $this->belongsTo(Department::class);
     }
 
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class);
-    }
+    // public function notifications()
+    // {
+    //     return $this->hasMany(Notification::class);
+    // }
 
-    public function leaveRequests()
-    {
-        return $this->hasMany(LeaveRequest::class);
-    }
+    // public function leaveRequests()
+    // {
+    //     return $this->hasMany(LeaveRequest::class);
+    // }
 
-    public function personalTimeslots()
-    {
-        return $this->hasMany(PersonalTimeslot::class);
-    }
+    // public function personalTimeslots()
+    // {
+    //     return $this->hasMany(PersonalTimeslot::class);
+    // }
 }
