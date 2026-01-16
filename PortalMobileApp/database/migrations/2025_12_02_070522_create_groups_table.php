@@ -17,6 +17,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('department_id')->references('id')->on('departments')->nullOnDelete();
+            $table->foreign('academic_year_id')->references('id')->on('academic_years')->nullOnDelete();
         });
     }
 

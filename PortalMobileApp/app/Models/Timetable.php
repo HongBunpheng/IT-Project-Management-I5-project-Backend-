@@ -18,7 +18,21 @@ class Timetable extends Model
         'end_time',
     ];
 
-    public function teacher()   { return $this->belongsTo(User::class, 'user_id'); }
-    public function group()     { return $this->belongsTo(Group::class); }
-    public function classroom() { return $this->belongsTo(ClassRoom::class, 'class_id'); }
+    public function teacher()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+    public function classroom()
+    {
+        return $this->belongsTo(ClassRoom::class, 'class_id');
+    }
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
+    
 }

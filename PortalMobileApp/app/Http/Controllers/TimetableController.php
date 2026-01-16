@@ -29,7 +29,7 @@ class TimetableController extends Controller
     {
         $user = User::findOrFail($user_id);
 
-        return Timetable::with(['teacher', 'group', 'classroom'])
+        return Timetable::with(['teacher', 'group', 'classroom','subject'])
             ->where('group_id', $user->group_id)
             ->orderBy('day_of_week')
             ->orderBy('start_time')
@@ -55,7 +55,7 @@ class TimetableController extends Controller
      */
     public function listByGroup($group_id)
     {
-        return Timetable::with(['teacher', 'group', 'classroom'])
+        return Timetable::with(['teacher', 'group', 'classroom','subject'])
             ->where('group_id', $group_id)
             ->orderBy('day_of_week')
             ->orderBy('start_time')

@@ -6,6 +6,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode as QrCodeGenerator;
 use App\Models\QrCode as QrCodeModel;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class QrCodeController extends Controller
 {
@@ -19,8 +20,8 @@ class QrCodeController extends Controller
      *     @OA\JsonContent(
      *       required={"timetable_id","valid_from","valid_until"},
      *       @OA\Property(property="timetable_id", type="integer", example=1),
-     *       @OA\Property(property="valid_from", type="string", example="08:00"),
-     *       @OA\Property(property="valid_until", type="string", example="09:30")
+     *       @OA\Property(property="valid_from", type="string", example="08:00 AM"),
+     *       @OA\Property(property="valid_until", type="string", example="09:30 PM")
      *     )
      *   ),
      *   @OA\Response(response=201, description="QR generated")
@@ -30,15 +31,15 @@ class QrCodeController extends Controller
     {
         $data = $request->validate([
             'timetable_id' => 'required|exists:timetables,id',
-            'valid_from'   => 'required',
-            'valid_until'  => 'required',
+            'valid_from'   => 'required|date_format:h:i A',
+            'valid_until'  => 'required|date_format:h:i A',
         ]);
 
         $qr = QrCodeModel::create([
             'code' => Str::uuid(),
             'timetable_id' => $data['timetable_id'],
-            'valid_from' => $data['valid_from'],
-            'valid_until' => $data['valid_until'],
+            'valid_from' => Carbon::createFromFormat('h:i A', $data['valid_from'])->format('H:i'),
+            'valid_until' => Carbon::createFromFormat('h:i A', $data['valid_until'])->format('H:i'),
         ]);
 
         return response()->json($qr, 201);

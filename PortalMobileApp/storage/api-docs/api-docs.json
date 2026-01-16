@@ -11,6 +11,50 @@
         }
     ],
     "paths": {
+        "/api/attendance/check-in": {
+            "post": {
+                "tags": [
+                    "Attendance"
+                ],
+                "summary": "Check in using QR code",
+                "operationId": "9379095aac0cd891a8397007afa6d03a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "qr_code"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 25
+                                    },
+                                    "qr_code": {
+                                        "type": "string",
+                                        "example": "uuid-string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Checked in"
+                    },
+                    "403": {
+                        "description": "Invalid or expired QR"
+                    },
+                    "409": {
+                        "description": "Already checked in"
+                    }
+                }
+            }
+        },
         "/api/auth/register": {
             "post": {
                 "tags": [
@@ -1209,6 +1253,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Attendance",
+            "description": "Attendance"
+        },
         {
             "name": "Auth",
             "description": "Auth"
